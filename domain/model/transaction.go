@@ -37,6 +37,10 @@ type Transaction struct {
 	CancelDescription string   `json:"cancel_description" gorm:"type:varchar(255)" valid:"-"`
 }
 
+func init() {
+	govalidator.SetFieldsRequiredByDefault(true)
+}
+
 func (t *Transaction) isValid() error {
 	_, err := govalidator.ValidateStruct(t)
 
@@ -44,11 +48,11 @@ func (t *Transaction) isValid() error {
 		return errors.New("the amount must be greater than 0")
 	}
 
-	if t.Status != TransactionCompleted && t.Status != TransactionPending && t.Status != TransactionError {
+	if t.Status != TransactionPending && t.Status != TransactionCompleted && t.Status != TransactionError {
 		return errors.New("invalid status for the transaction")
 	}
 
-	if t.PixKeyTo.AccountID == t.AccountFrom.ID {
+	if t.PixKeyTo.AccountID == t.AccountFromID {
 		return errors.New("the source and destination account cannot be the same")
 	}
 
@@ -58,26 +62,6 @@ func (t *Transaction) isValid() error {
 	return nil
 }
 
-func NewTransaction(accountFrom *Account, amount float64, pixKeyTo *PixKey, description string) (*Transaction, error) {
-	transaction := Transaction{
-		AccountFrom: accountFrom,
-		Amount:      amount,
-		PixKeyTo:    pixKeyTo,
-		Description: description,
-		Status:      TransactionPending,
-	}
-
-	transaction.ID = uuid.NewV4().String()
-	transaction.CreatedAt = time.Now()
-
-	err := transaction.isValid()
-	if err != nil {
-		return nil, err
-	}
-
-	return &transaction, nil
-}
-
 func (t *Transaction) Complete() error {
 	t.Status = TransactionCompleted
 	t.UpdatedAt = time.Now()
@@ -85,17 +69,29 @@ func (t *Transaction) Complete() error {
 	return err
 }
 
-func (t *Transaction) Confirm() error {
-	t.Status = TransactionConfirmed
+func (t *Transaction) Cancel(description string) error {
+	t.Status = TransactionError
+	t.CancelDescription = description
 	t.UpdatedAt = time.Now()
 	err := t.isValid()
 	return err
 }
 
-func (t *Transaction) Cancel(description string) error {
-	t.Status = TransactionError
-	t.UpdatedAt = time.Now()
-	t.Description = description
-	err := t.isValid()
-	return err
+func NewTransaction(accountFrom *Account, amount float64, pixKeyTo *PixKey, description string) (*Transaction, error) {
+	transaction := Transaction{
+		AccountFrom:   accountFrom,
+		AccountFromID: accountFrom.ID,
+		Amount:        amount,
+		PixKeyTo:      pixKeyTo,
+		PixKeyIdTo:    pixKeyTo.ID,
+		Status:        TransactionPending,
+		Description:   description,
+	}
+	transaction.ID = uuid.NewV4().String()
+	transaction.CreatedAt = time.Now()
+	err := transaction.isValid()
+	if err != nil {
+		return nil, err
+	}
+	return &transaction, nil
 }
