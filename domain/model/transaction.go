@@ -18,7 +18,7 @@ const (
 type TransactionRepositoryInterface interface {
 	Register(transaction *Transaction) error
 	Save(transaction *Transaction) error
-	Find(id string) (Transaction, error)
+	Find(id string) (*Transaction, error)
 }
 
 type Transactions struct {
