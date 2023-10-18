@@ -14,6 +14,8 @@ func TestModel_NewAccount(t *testing.T) {
 	name := "Banco do Brasil"
 	bank, err := model.NewBank(code, name)
 
+	require.Nil(t, err)
+
 	accountNumber := "abcnumber"
 	ownerName := "Wesley"
 	account, err := model.NewAccount(bank, accountNumber, ownerName)
