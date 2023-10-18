@@ -26,7 +26,7 @@ func (p *PixUseCase) RegisterKey(key string, kind string, accountId string) (*mo
 		return nil, errors.New("unable to create new key at the moment")
 	}
 
-	return pixKey, err
+	return pixKey, nil
 }
 
 func (p *PixUseCase) FindKey(key string, kind string) (*model.PixKey, error) {
