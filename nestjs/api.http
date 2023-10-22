@@ -1,6 +1,6 @@
 GET http://localhost:3000/bank-accounts
 
-@bank_acount_id = 50abcf43-c4dd-4933-a11c-cf2af73a1207
+@bank_acount_id = 967a430a-1551-4d02-be87-81d85e58e35a
 
 ###
 GET http://localhost:3000/bank-accounts/{{bank_acount_id}}
@@ -24,7 +24,7 @@ Content-Type: application/json
 
 {
     "kind": "email",
-    "key": "user1@email.com"
+    "key": "user2@email.com"
 }
 
 ###
