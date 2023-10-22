@@ -58,7 +58,7 @@ POST http://localhost:3000/bank-accounts/{{bankAccountId1}}/transactions
 Content-Type: application/json
 
 {
-    "pix_key_key": "3",
+    "pix_key_key": "2",
     "pix_key_kind": "cpf",
     "description": "My transaction",
     "amount": 10.00
