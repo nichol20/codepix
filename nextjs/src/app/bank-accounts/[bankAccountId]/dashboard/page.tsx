@@ -1,27 +1,32 @@
-import { CardAction } from "@/components/CardAction";
-import { CurrentBalance } from "@/components/CurrentBalance"
-import { Typography } from "@mui/material"
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2"
-import Link from "next/link";
+import { Typography } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import { CurrentBalance } from "../../../../components/CurrentBalance";
+import { CardAction } from "../../../../components/CardAction";
 import { MyLatestTransactions } from "./MyLatestTransactions";
-import { Transaction } from "@/models";
+import { Transaction } from "../../../../models";
+import Link from "next/link";
 
-export async function getTransactions(bankAccountId: string): Promise<Transaction[]> {
-    const response = await fetch(`http://host.docker.internal:3000/bank-accounts/${bankAccountId}/transactions`, {
-        next: {
-            revalidate: 10
+export async function getTransactions(
+    bankAccountId: string
+): Promise<Transaction[]> {
+    const response = await fetch(
+        `${process.env.NEXT_PUBLIC_NEST_API_URL}/bank-accounts/${bankAccountId}/transactions`,
+        {
+            next: {
+                revalidate: 10,
+                tags: [`bank-accounts/${bankAccountId}`],
+            },
         }
-    })
-    return response.json()
+    );
+    return response.json();
 }
 
 export async function BankAccountDashboardPage({
     params,
 }: {
-    params: { bankAccountId: string }
+    params: { bankAccountId: string };
 }) {
-    const transactions = await getTransactions(params.bankAccountId)
-
+    const transactions = await getTransactions(params.bankAccountId);
     return (
         <Grid2 container spacing={2}>
             <Grid2 xs={12} lg={6}>
@@ -57,11 +62,10 @@ export async function BankAccountDashboardPage({
             </Grid2>
             <Grid2 xs={12}>
                 <Typography variant="h5">Últimos lançamentos</Typography>
-                <MyLatestTransactions transactions={[]} />
+                <MyLatestTransactions transactions={transactions} />
             </Grid2>
         </Grid2>
     );
-
 }
 
-export default BankAccountDashboardPage
+export default BankAccountDashboardPage;
