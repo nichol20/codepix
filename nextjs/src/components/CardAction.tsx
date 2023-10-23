@@ -6,6 +6,7 @@ import { Button, SxProps, Theme } from "@mui/material";
 
 export type CardActionProps = {
     sx?: SxProps<Theme>;
+    action?: (formData: FormData) => void;
 };
 
 export function CardAction(props: PropsWithChildren<CardActionProps>) {
@@ -20,9 +21,11 @@ export function CardAction(props: PropsWithChildren<CardActionProps>) {
                     alignItems={"center"}
                     justifyContent={"flex-end"}
                 >
-                    <Button color='primary'>
-                        <ArrowForwardIcon />
-                    </Button>
+                    <form action={props.action}>
+                        <Button color='primary'>
+                            <ArrowForwardIcon />
+                        </Button>
+                    </form>
                 </Grid2>
             </Grid2>
         </Card>
