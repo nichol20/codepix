@@ -3,7 +3,6 @@
 import { green, red } from "@mui/material/colors";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { Transaction } from "../../../../models";
-import { useRouter } from "next/navigation";
 
 const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 300 },
@@ -34,27 +33,13 @@ const columns: GridColDef[] = [
 
 export type MyLatestTransactionsProps = {
     transactions: Transaction[];
-    page?: number;
-    perPage?: number;
 };
 
 export function MyLatestTransactions(props: MyLatestTransactionsProps) {
-    //const router = useRouter();
     return (
         <DataGrid
             rows={props.transactions}
             columns={columns}
-        // initialState={{
-        //   pagination: {
-        //     paginationModel: { page: props.page, pageSize: props.perPage },
-        //   },
-        // }}
-        // pageSizeOptions={[5, 10]}
-        // onPaginationModelChange={(paginationParams) => {
-        //   router.push(
-        //     `/bank-accounts/${props.bankAccountId}/dashboard?page=${paginationParams.page}&page_size=${paginationParams.pageSize}`
-        //   );
-        // }}
         />
     );
 }
