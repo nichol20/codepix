@@ -9,7 +9,7 @@ export async function createPixKeyAction(
   const pixKeyKind = formData.get("kind");
   const pixKeyKey = formData.get("key");
   const response = await fetch(
-    `${"http://host.docker.internal:3000"}/bank-accounts/${bankAccountId}/pix-keys`,
+    `${process.env.NEXT_PUBLIC_NEST_API_URL}/bank-accounts/${bankAccountId}/pix-keys`,
     {
       method: "POST",
       body: JSON.stringify({
