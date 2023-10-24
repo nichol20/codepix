@@ -6,7 +6,7 @@ import { MyLatestTransactions } from "./MyLatestTransactions";
 import { Transaction } from "../../../../models";
 import Link from "next/link";
 
-export async function getTransactions(
+async function getTransactions(
     bankAccountId: string
 ): Promise<Transaction[]> {
     const response = await fetch(
@@ -21,7 +21,7 @@ export async function getTransactions(
     return response.json();
 }
 
-export async function BankAccountDashboardPage({
+export default async function BankAccountDashboardPage({
     params,
 }: {
     params: { bankAccountId: string };
@@ -67,5 +67,3 @@ export async function BankAccountDashboardPage({
         </Grid2>
     );
 }
-
-export default BankAccountDashboardPage;

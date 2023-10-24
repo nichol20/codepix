@@ -5,7 +5,7 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function getBankAccounts(): Promise<BankAccount[]> {
+async function getBankAccounts(): Promise<BankAccount[]> {
     const response = await fetch(
         `${process.env.NEXT_PUBLIC_NEST_API_URL}/bank-accounts`,
         {
@@ -18,7 +18,7 @@ export async function getBankAccounts(): Promise<BankAccount[]> {
 }
 //http - cache
 
-export async function HomePage() {
+export default async function HomePage() {
     const bankAccounts = await getBankAccounts();
     return (
         <div>
@@ -46,5 +46,3 @@ export async function HomePage() {
         </div>
     );
 }
-
-export default HomePage;

@@ -3,7 +3,7 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { PixKeyList } from "./PixKeyList";
 import { RegisterPixKeyForm } from "./RegisterPixKeyForm";
 
-export function MyPixDashboardPage({
+export default function MyPixDashboardPage({
     params,
 }: {
     params: { bankAccountId: string };
@@ -23,5 +23,3 @@ export function MyPixDashboardPage({
         </Box>
     );
 }
-
-export default MyPixDashboardPage;
